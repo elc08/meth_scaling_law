@@ -1,3 +1,7 @@
 data/*
 exports/*
 results/*
+
+!data/.gitkeep 
+!exports/.gitkeep
+!results/.gitkeep
