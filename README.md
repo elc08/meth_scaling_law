@@ -1,4 +1,4 @@
-# Inference of the scaling between methylation rates and lifespan in mammals
+# Inference of scaling between methylation rates and lifespan in mammals
 
 ## General overview
 This repository aims to develop tools to infer scaling laws of methylation rates and lifespan in conserved age-related CpG sites across mammals.
