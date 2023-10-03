@@ -1,0 +1,20 @@
+name: scaling_law_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python = 3.11
+  - numpy
+  - pandas
+  - pymc = 5.7
+  - plotly
+  - matplotlib
+  - scikit-learn
+  - tqdm
+  - nbformat
+  - scipy
+  - seaborn
+  - anndata
+  - ipywidgets = 7
+  - GEOparse
+  - multiprocess
