@@ -36,7 +36,7 @@ np.random.seed(123456)
 
 # in blood add pan troglodytes
 if tissue == 'Blood':
-    chimp = ad.read_h5ad('../exports/Pan troglodytes_Blood.h5ad')
+    chimp = ad.read_h5ad('../exports/troglodytes_Blood.h5ad')
     chimp.uns['organism'] = 'Pan troglodytes'
     chimp.uns['sex_maturity'] = 9.24
     chimp.var['average_adult_weight'] = 44.984
