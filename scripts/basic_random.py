@@ -6,6 +6,7 @@ import os
 from src.auxiliary_fcts_opt import *
 
 from scipy.stats import linregress, norm
+from sklearn.feature_selection import r_regression
 from multiprocessing import Pool
 
 # Parameters
@@ -13,7 +14,7 @@ sex_maturity_trim = False
 init_min_samples = 15
 drop_outliers = False
 n_cores = 7
-
+np.random.seed(123)
 # set seed for reproducibilit
 np.random.seed(123)
 
@@ -76,12 +77,20 @@ with Pool(n_cores) as p:
     data_list = list(
         tqdm(p.imap(mod_data_trim, data_list), total=len(data_list)))
 
+with Pool(n_cores) as p:
+    data_list = list(
+        tqdm(p.imap(compute_slopes, data_list), total=len(data_list)))
+
+# compute r for each site
+for data in data_list:    
+    data.obs['r'] = r_regression(X=data.X.T, y=data.var.age)
+
 scaling_law_list = []
 r2_threshold_list = np.linspace(0,0.3, 101)
 mean_sites_list = []
 min_sites_list = []
 for r2_threshold in tqdm(r2_threshold_list):
-    slopes = [np.abs(data[data.obs.ref_r**2>r2_threshold].obs.ref_slope) for data in data_list]
+    slopes = [np.abs(data[data.obs.r**2>r2_threshold].obs.slope) for data in data_list]
     median_slopes = [np.median(s) for s in slopes]
     lifespan = [data.uns['lifespan'] for data in data_list]
     reg = linregress(x=np.log10(lifespan),
@@ -116,7 +125,7 @@ plt.clf()
 r2_threshold = 0.1
 
 median_slopes = [
-        np.abs(data[data.obs.ref_r**2>r2_threshold].obs.ref_slope).median()
+        np.abs(data[data.obs.r**2>r2_threshold].obs.slope).median()
         for data in data_list]
 
 lifespan = [data.uns['lifespan'] for data in data_list]
